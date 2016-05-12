@@ -1,44 +1,5 @@
-<!DOCTYPE html>
-<html lang="fr" ng-app="cobaturage">
-  <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <!--Import Google Icon Font-->
-      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <!--Import materialize.css-->
-      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-      <link type="text/css" rel="stylesheet" href="myOwnCSS.css"/>
 
-
-      <!--Let browser know website is optimized for mobile-->
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-    <title>Inscription</title>
-
-        <!-- Compiled and minified CSS -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
-
-      <!-- Compiled and minified JavaScript -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
-      <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-      <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-      <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-      <![endif]-->
- 
-  </head>
-
-
-  <body>
-  
-    <!-- A REMETTRE AU MOMENT DU PHP --> 
-    <!--<?php include("includes/nav_bar_include.php"); ?> -->
-
-    <!--Import jQuery before materialize.js-->
-      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-      <script type="text/javascript" src="js/materialize.min.js"></script>
-      <script type="text/javascript" src="angular/angular.min.js"></script>
-      <script type="text/javascript" src="angular/app.js"></script>
+    
       <script type="text/javascript">
         function verif()
         {
@@ -79,11 +40,10 @@
             
         }
       </script>
-      
-     <div class="row">
-      <form class="col s12" id="form_inscription" method="POST" action="controller/controllerInscription.php">
-      <center> 
-        <p>Votre pseudo vous servira à chaque connexion, notez le bien.</p>
+    <center>  
+     <div class="row s8">
+      <form class="col s12" id="form_inscription" method="POST" action="inscription/nouveau">
+        <h2>Votre pseudo vous servira à chaque connexion, notez le bien.</h2>
         <div class="row">
           <div class="input-field col s12">
             <i class="material-icons prefix">account_circle</i>
@@ -135,10 +95,8 @@
           </div>
         </div>
         
-        <button id="bouton_inscription" type="submit" onmouseover="verif()" onclick="verif()">S'inscrire</button></form>
-        </center>
+        <button id="bouton_inscription" type="submit" onmouseover="verif()" onclick="verif()">S'inscrire</button>
+        
       </form>
     </div>
-    
-  </body>
-</html>
+  </center>

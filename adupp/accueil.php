@@ -1,99 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <!--Import Google Icon Font-->
-      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <!--Import materialize.css-->
-      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-
-
-      <!--Let browser know website is optimized for mobile-->
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-    <title>Cobaturage</title>
-
-        <!-- Compiled and minified CSS -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
-
-      <!-- Compiled and minified JavaScript -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
-      <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-      <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-      <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-      <![endif]-->
-      <style type="text/css">
-        #texte_intro{
-          z-index = 20!important;
-          position: relative!important;
-        }
-        #image_parallaxe{
-          z-index = 1!important;
-          position: absolute!important;
-        }
-      </style>
-
-
- 
+      <?php  include("includes/head.php");?>
+       
+      
+      
   </head>
 
 
   <body>
-    <!--Import jQuery before materialize.js-->
-      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-      <script type="text/javascript" src="js/materialize.min.js"></script>
 
       <?php 
-      include("includes/navbar.php"); 
+        include("includes/navbar.php");
+        include("includes/parallaxe.php");
       ?>
 
-     <div class="parallax-container">
-      <div class="parallax">
-        <img src="image/dinard_tentes_60.jpg" alt="baie de saint-malo" class = "responsive-img" id="image_parallax">
-        <div class="section" id="texte_intro">
-          <div class="container">
-          <div class ="row">
-            <h2 class="header white-text">Préparez vos sorties en mer en toute tranquillité</h2>
-            <p class="white-text">L'ADUPP vous propose son service de cobaturage. Ici vous pouvez proposer à des gens, mais aussi chercher des gens qui, comme vous, veulent profiter de la mer.
-            Promenade en mer, pêche, voile ou sports nautiques, tout y est et tout le monde trouvera son bonheur. Parcourez les annonces ou créez la votre !
-            La mer et les rencontres vous attendent ici !</p>
-              <div class = "row card-panel grey lighten-5" id='menu_annonces_description'>
-                <div class="col l3" >
-                  <p>
-                    <strong>Loisirs / Echanges</strong><br>
-                    Voir les propositions de services et index de recherche
-                  </p>
-                </div>
-
-                <div class="col l3">
-                  <p>
-                    <strong>Achats / Ventes</strong><br>
-                    Voir les propositions de vente ou achat de matériels.
-                  </p>
-                </div>
-
-                <div class="col l3">
-                  <p>
-                    <strong>Mes annonces / demandes</strong><br>
-                    Permet de lister les éléments de mon compte.
-                  </p>
-                </div>
-
-                <div class="col l3">
-                  <p>
-                    <strong>Mon profil</strong><br>
-                    Permet de consulter mon profil et éventuellement de le modifier.
-                  </p>
-                </div>
-                </div>
-
-              </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
      <div class="container">
        <h1> Créez votre annonce !</h1>

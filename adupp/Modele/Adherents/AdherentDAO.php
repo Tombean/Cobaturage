@@ -7,30 +7,19 @@
         private $bd;
         
         public function __construct(){
-            
-            try {
-                $DB_HostName = "localhost";
-                $DB_Name = "glecam_cobaturage";
-                $DB_User = "root";
-                $DB_Pass = "";
-                $bd = new PDO("mysql:host=$DB_HostName;dbname=$DB_Name", $DB_user, $DB_Pass);
-            } catch (PDOException $e) {
-                print "Error!: " . $e->getMessage() . "<br/>";
-                die();
-            }
-            //$bd = new PDO('mysql:host=localhost;dbname=glecam_cobaturage;charset=utf8', 'root', '');
+            $this->bd = new PDO('mysql:host=db626009884.db.1and1.com;dbname=db626009884;charset=utf8', 'dbo626009884', 'Polytech7', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         }
 
         
-        /** Uses a Annonce's ID to get the Annonce
-         * @param  Annonce's ID
-         * @return Annonce
+        /** Uses a Adherent's ID to get the Adherent
+         * @param  Adherent's ID
+         * @return Adherent
          */
         public function getByID($id)
         {
                 
-            $req = $bd->prepare('SELECT * 
-                FROM Adherent 
+            $req = $this->bd->prepare('SELECT * 
+                FROM Adherents 
                 WHERE id_adherent = :id');
             $req->bindParam(':id', $id );
             $req->execute();
@@ -38,6 +27,26 @@
             $adherentFromReq = new Adherent($result[0]['id_adherent'], $result[0]['pseudo'], $result[0]['password'], $result[0]['nom'], $result[0]['prenom'], $result[0]['email'], $result[0]['telephone'], $result[0]['description'], $result[0]['possede_bateau'] );
             
             return $adherentFromReq;
+        }
+
+        /** Uses a Adherent to get the Adherent
+         * @param  Adherent
+         * @return Adherent's ID
+         */
+        public function getID($pseudo, $pass)
+        {
+                
+            $req = $this->bd->prepare('SELECT id_adherent 
+                FROM Adherents 
+                WHERE pseudo = :pseudo
+                AND password = :password; ');
+            $password = md5($pass);
+            $req->bindParam(':pseudo', $pseudo );
+            $req->bindParam(':password', $password );
+            $req->execute();
+            $result = $req->fetchAll();
+            
+            return $result;
         }
 
 
@@ -50,8 +59,8 @@
         public function deleteByID($adherent)
         {
             $id = $adherent->getID();
-            $req = $bd->prepare('DELETE 
-                FROM Adherent 
+            $req = $this->bd->prepare('DELETE 
+                FROM Adherents 
                 WHERE id_adherent = :id');
             $req->bindParam(':id', $id );
             $req->execute();
@@ -63,7 +72,7 @@
          */
         public function addAdherent($adherent)
         {
-            $req = $bd->prepare('INSERT INTO Adherent
+            $req = $this->bd->prepare('INSERT INTO Adherents
                 (pseudo, password, nom, prenom, email, telephone, description, possede_bateau)
                 VALUES(:adherent, :pseudo, :nom, :prenom, :email,  :recherche, :telephone, :description, :possede_bateau)
                 ');
@@ -77,16 +86,16 @@
             $req->bindParam(':description', $annonce->getDescription() );
             $req->binDParam(':possede_bateau', $annonce->getPossedeBateau() );
             $req->execute();
-            $id = $bd -> lastInsertId();
+            $id = $this->bd -> lastInsertId();
             $adherent->setID($id);
 
         }
 
-        
+        /*
         public function edit($adherent)
         {
             if ($annonce.getID() >= 0){
-                $req = $bd->prepare('UPDATE Adherent
+                $req = $this->bd->prepare('UPDATE Adherent
                 SET adherent = :adherent,
                 date_creation = :date_creation,
                 date_debut = :date_debut,
@@ -112,13 +121,13 @@
         }
         
         public function getAll(){
-            $req = $bd->prepare('SELECT * FROM Adherent 
+            $req = $this->bd->prepare('SELECT * FROM Adherent 
                 WHERE date_fin < :now');
             $now = date(y-m-d);
             $req->bindParam(':now', $now );
             $annonces = $req->fetchAll();
             
             return $annonces;
-        }
+        } */
     }
 ?>

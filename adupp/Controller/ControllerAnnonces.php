@@ -16,25 +16,24 @@
         private $adherentDAO;
 
         public function __construct(){
-            $AnnonceDAO = new AnnonceDAO();
-            $typeDAO = new TypeDAO();
-            $lieuDAO = new LieuDAO();
-            $adherentDAO = new AdherentDAO();
+            $this->annonceDAO = new AnnonceDAO();
+            $this->typeDAO = new TypeDAO();
+            $this->lieuDAO = new LieuDAO();
+            $this->adherentDAO = new AdherentDAO();
         }
 
         public function getByID( $id ){
-            $annonce = new Annonce();
-            $annonce = $annonceDAO->getByID( $id);
+            $annonce = $this->annonceDAO->getByID( $id );
             require_once('Vue/Annonces/AnnonceVue.php');
         }
 
         public function create( $adhérent, $lieuForm, $date_debut, $date_fin, $type, $cherche, $participation, $commentaire ){
             $type = new Type();
-            $type = $typeDAO->getByName($type);
+            $type = $this->typeDAO->getByName($type);
             $lieu = new Lieu();
-            $lieu = $lieuDAO->getByName($lieuForm);
+            $lieu = $this->lieuDAO->getByName($lieuForm);
             $adherent = new Adherent();
-            $adherent = $adherentDAO.getByID($_COOKIE['id_adherent']);
+            $adherent = $this->adherentDAO->getByID($_COOKIE['id_adherent']);
             $date_creation = date(y-m-d);
 
             $annonce = new Annonce( -1,
@@ -55,7 +54,7 @@
 
         public function getAll()
         {
-            // à  faire pour l'acces BD
+            $annonces = $this->annonceDAO->getAll();
             require_once('Vue/Annonces/AnnoncesVue.php');
         }
     }

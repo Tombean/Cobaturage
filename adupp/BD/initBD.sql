@@ -1,4 +1,4 @@
-USE glecam_cobaturage;
+USE db626009884;
 DROP TABLE Demandes;
 DROP TABLE Annonces;
 DROP TABLE Achats;
@@ -17,7 +17,8 @@ CREATE TABLE Adherents
     email VARCHAR(50),
     telephone VARCHAR(12),
     description VARCHAR(150),
-    possede_bateau BOOLEAN
+    possede_bateau BOOLEAN,
+    admin BIT DEFAULT 0
 );
 
 CREATE TABLE Types
@@ -97,29 +98,29 @@ END;
 --INSERTS DE TEST
 
 --ADHERENTS
-INSERT INTO `adherents` (`id_adherent`, `pseudo`, `password`, `nom`, `prenom`, `email`, `telephone`, `description`, `possede_bateau`) VALUES (NULL, 'Tombean', 'test', 'Somerville', 'Tom', 'tom.somervillerobetrts@gmail.com', '0665534957', 'Coucou, je test la BD. Sinon j''aime le wake et j''ai le permis cotier !', '0');
-INSERT INTO `adherents` (`id_adherent`, `pseudo`, `password`, `nom`, `prenom`, `email`, `telephone`, `description`, `possede_bateau`) VALUES (NULL, 'jyromagne', 'test', 'Romagne', 'Jean-Yves', 'jyromagne@sfr.fr', '0299464828', 'J''aime la pêche et la voile. J''ai mon Zodiac au port de Dinard. Je fais partie de l ADUPP', '1');
-INSERT INTO `adherents` (`id_adherent`, `pseudo`, `password`, `nom`, `prenom`, `email`, `telephone`, `description`, `possede_bateau`) VALUES (NULL, 'Beebee2', 'test', 'Lolo', 'LILI', 'abcd@defgt.fr', '0000000000', 'J aime la mer', '0');
+INSERT INTO Adherents (`id_adherent`, `pseudo`, `password`, `nom`, `prenom`, `email`, `telephone`, `description`, `possede_bateau`) VALUES (NULL, 'Tombean', 'test', 'Somerville', 'Tom', 'tom.somervillerobetrts@gmail.com', '0665534957', 'Coucou, je test la BD. Sinon j''aime le wake et j''ai le permis cotier !', '0');
+INSERT INTO Adherents (`id_adherent`, `pseudo`, `password`, `nom`, `prenom`, `email`, `telephone`, `description`, `possede_bateau`) VALUES (NULL, 'jyromagne', 'test', 'Romagne', 'Jean-Yves', 'jyromagne@sfr.fr', '0299464828', 'J''aime la pêche et la voile. J''ai mon Zodiac au port de Dinard. Je fais partie de l ADUPP', '1');
+INSERT INTO Adherents (`id_adherent`, `pseudo`, `password`, `nom`, `prenom`, `email`, `telephone`, `description`, `possede_bateau`) VALUES (NULL, 'Beebee2', 'test', 'Lolo', 'LILI', 'abcd@defgt.fr', '0000000000', 'J aime la mer', '0');
 
 --LIEUX
-INSERT INTO `lieux` (`id_lieu`, `nom`) VALUES (NULL, 'Port de Dinard');
-INSERT INTO `lieux` (`id_lieu`, `nom`) VALUES (NULL, 'Port de Saint-Malo');
-INSERT INTO `lieux` (`id_lieu`, `nom`) VALUES (NULL, 'Plage de l Ecluse');
-INSERT INTO `lieux` (`id_lieu`, `nom`) VALUES (NULL, 'Port de Saint-Lunaire');
-INSERT INTO `lieux` (`id_lieu`, `nom`) VALUES (NULL, 'Plage de Saint-Lunaire');
+INSERT INTO Lieux (`id_lieu`, `nom`) VALUES (NULL, 'Port de Dinard');
+INSERT INTO Lieux (`id_lieu`, `nom`) VALUES (NULL, 'Port de Saint-Malo');
+INSERT INTO Lieux (`id_lieu`, `nom`) VALUES (NULL, 'Plage de l Ecluse');
+INSERT INTO Lieux (`id_lieu`, `nom`) VALUES (NULL, 'Port de Saint-Lunaire');
+INSERT INTO Lieux (`id_lieu`, `nom`) VALUES (NULL, 'Plage de Saint-Lunaire');
 
 --TYPES
-INSERT INTO `types` (`id_type`, `nom`) VALUES (NULL, 'Peche');
-INSERT INTO `types` (`id_type`, `nom`) VALUES (NULL, 'Voile');
-INSERT INTO `types` (`id_type`, `nom`) VALUES (NULL, 'Sports nautiques');
-INSERT INTO `types` (`id_type`, `nom`) VALUES (NULL, 'Promenade');
+INSERT INTO Types (`id_type`, `nom`) VALUES (NULL, 'Peche');
+INSERT INTO Types (`id_type`, `nom`) VALUES (NULL, 'Voile');
+INSERT INTO Types (`id_type`, `nom`) VALUES (NULL, 'Sports nautiques');
+INSERT INTO Types (`id_type`, `nom`) VALUES (NULL, 'Promenade');
 
 --ANNONCES
-INSERT INTO `annonces` (`id_annonce`, `date_creation`, `date_debut`, `date_fin`, `type`, `lieu`, `adherent`, `commentaire`, `participation`, `cherche`) VALUES (NULL, '2016-05-25', '2016-05-26', '2016-06-30', '1', '1', '5', 'Je propose de la peche a la dorade pres de la bouee 13 ', '0', '0');
-INSERT INTO `annonces` (`id_annonce`, `date_creation`, `date_debut`, `date_fin`, `type`, `lieu`, `adherent`, `commentaire`, `participation`, `cherche`) VALUES (NULL, '2016-05-11', '2016-05-12', '2016-08-31', '3', '3', '4', 'Je cherche des sportifs ayant un bateau de 50 Ch ou plus pour faire du wakeboard cet ete', '1', '1');
+INSERT INTO Annonces (`id_annonce`, `date_creation`, `date_debut`, `date_fin`, `type`, `lieu`, `adherent`, `commentaire`, `participation`, `cherche`) VALUES (NULL, '2016-05-25', '2016-05-26', '2016-06-30', '1', '1', '5', 'Je propose de la peche a la dorade pres de la bouee 13 ', '0', '0');
+INSERT INTO Annonces (`id_annonce`, `date_creation`, `date_debut`, `date_fin`, `type`, `lieu`, `adherent`, `commentaire`, `participation`, `cherche`) VALUES (NULL, '2016-05-11', '2016-05-12', '2016-08-31', '3', '3', '4', 'Je cherche des sportifs ayant un bateau de 50 Ch ou plus pour faire du wakeboard cet ete', '1', '1');
 
 --ACHATS
-INSERT INTO `achats` (`id_vente`, `date_creation`, `prix`, `adherent`, `commentaire`, `vend`) VALUES (NULL, '2016-05-11', '12000', '4', 'Je cherche un bateau de wakeboard aux alentours des 12000E', '0');
+INSERT INTO Achats (`id_vente`, `date_creation`, `prix`, `adherent`, `commentaire`, `vend`) VALUES (NULL, '2016-05-11', '12000', '4', 'Je cherche un bateau de wakeboard aux alentours des 12000E', '0');
 
 --DEMANDES
-INSERT INTO `demandes` (`id_demande`, `annonce`, `adherent`, `date_debut`, `date_fin`, `commentaire`) VALUES ('1', '2', '5', '2016-05-12', '2016-09-15', 'Je possede un zodiac de 50CH et voudrais faire du wake avec vous ');
+INSERT INTO Demandes (`id_demande`, `annonce`, `adherent`, `date_debut`, `date_fin`, `commentaire`) VALUES ('1', '2', '5', '2016-05-12', '2016-09-15', 'Je possede un zodiac de 50CH et voudrais faire du wake avec vous ');

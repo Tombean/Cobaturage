@@ -1,0 +1,8 @@
+#texte_intro{
+          z-index = 20!important;
+          position: relative!important;
+        }
+#image_parallaxe{
+    z-index = 1!important;
+    position: absolute!important;
+}

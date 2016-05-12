@@ -15,21 +15,10 @@
         private $adherentDAO;
 
         public function __construct(){
-            
-            try {
-                $DB_HostName = "localhost";
-                $DB_Name = "glecam_cobaturage";
-                $DB_User = "root";
-                $DB_Pass = "";
-                $bd = new PDO("mysql:host=$DB_HostName;dbname=$DB_Name", $DB_user, $DB_Pass);
-            } catch (PDOException $e) {
-                print "Error!: " . $e->getMessage() . "<br/>";
-                die();
-            }
-            //$bd = new PDO('mysql:host=localhost;dbname=glecam_cobaturage;charset=utf8', 'root', '');
-            $typeDAO = new TypeDAO();
-            $lieuDAO = new LieuDAO();
-            $adherentDAO = new AdherentDAO();
+            $this->bd = new PDO('mysql:host=db626009884.db.1and1.com;dbname=db626009884;charset=utf8', 'dbo626009884', 'Polytech7', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $this->typeDAO = new TypeDAO();
+            $this->lieuDAO = new LieuDAO();
+            $this->adherentDAO = new AdherentDAO();
 
         }
         
@@ -44,7 +33,7 @@
             $limit = (int) $X;
             $annoncesTab = array();
                 
-            $req = $bd->prepare('SELECT Lieux.nom AS lieu 
+            $req = $this->bd->prepare('SELECT Lieux.nom AS lieu 
             	DATE_FORMAT(Annonces.date_creation, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation, 
             	DATE_FORMAT(Annonces.date_debut, \'%d/%m/%Y à %Hh%imin%ss\') AS debut, 
             	DATE_FORMAT(Annonces.date_fin, \'%d/%m/%Y à %Hh%imin%ss\') AS fin, 
@@ -59,11 +48,11 @@
             for( $i = 0; $i< $X; $i++){
 
                 $adherent = new Adherent();
-                $adherent = $adherentDAO->getByID($result[$i]['adherent']);
+                $adherent = $this->adherentDAO->getByID($result[$i]['adherent']);
                 $lieu = new Lieu();
-                $lieu = $lieuDAO->getByID($result[$i]['lieu']);
+                $lieu = $this->lieuDAO->getByID($result[$i]['lieu']);
                 $type = new Type();
-                $type = $typeDAO->getByID($result[$i]['type']);
+                $type = $this->typeDAO->getByID($result[$i]['type']);
 
 
                 $annonceFromReq = new Annonce($result[$i]['id_annonce'], $adherent, $lieu, $result[$i]['date_creation'], $result[$i]['date_debut'],
@@ -85,7 +74,7 @@
         public function getByID($id)
         {
                 
-            $req = $bd->prepare('SELECT * 
+            $req = $this->bd->prepare('SELECT * 
                 FROM Annonces 
                 WHERE id_annonce = :id');
             $req->bindParam(':id', $id );
@@ -94,11 +83,11 @@
             $result = $req->fetchAll();
 
             $adherent = new Adherent();
-            $adherent = $adherentDAO->getByID($result[0]['adherent']);
+            $adherent = $this->adherentDAO->getByID($result[0]['adherent']);
             $lieu = new Lieu();
-            $lieu = $lieuDAO->getByID($result[0]['lieu']);
+            $lieu = $this->lieuDAO->getByID($result[0]['lieu']);
             $type = new Type();
-            $type = $typeDAO->getByID($result[0]['type']);
+            $type = $this->typeDAO->getByID($result[0]['type']);
 
 
             $annonceFromReq = new Annonce($result[0]['id_annonce'], $adherent, $lieu, $result[0]['date_creation'], $result[0]['date_debut'],
@@ -118,7 +107,7 @@
         public function deleteByID($annonce)
         {
             $id = $annonce->getID();
-            $req = $bd->prepare('DELETE 
+            $req = $this->bd->prepare('DELETE 
                 FROM Annonces 
                 WHERE id_annonce = :id');
             $req->bindParam(':id', $id );
@@ -131,7 +120,7 @@
          */
         public function addAnnonce($annonce)
         {
-            $req = $bd->prepare('INSERT INTO Annonces
+            $req = $this->bd->prepare('INSERT INTO Annonces
                 (adherent, date_creation, date_debut, date_fin, type, recherche, participation, commentaire, lieu)
                 VALUES(:adherent, :date_creation, :date_debut, :date_fin, :type, :recherche, :participation, :commentaire, :lieu)
                 ');
@@ -145,7 +134,7 @@
             $req->bindParam(':commentaire', $annonce->getCommentaire() );
             $req->bindParam(':lieu', $annonce->getLieu()->getID() );
             $req->execute();
-            $id = $bd -> lastInsertId();
+            $id = $this->bd -> lastInsertId();
             $annonce->setID($id);
 
         }
@@ -158,9 +147,9 @@
         public function getAllFor($adherent)
         {
             $annoncesTab = array();
-            $req = $bd->prepare('SELECT *  
+            $req = $this->bd->prepare('SELECT *  
                 FROM Annonces 
-                WHERE Adherents.id_adherent = :id_adherent
+                WHERE id_adherent = :id_adherent
                 ORDER BY date_creation');
             $req->bindParam(':id_adherent', $adherent->getID() );
             $req->execute();
@@ -170,9 +159,9 @@
              while( isset($result[$i]) ){
 
                 $lieu = new Lieu();
-                $lieu = $lieuDAO->getByID($result[$i]['lieu']);
+                $lieu = $this->lieuDAO->getByID($result[$i]['lieu']);
                 $type = new Type();
-                $type = $typeDAO->getByID($result[$i]['type']);
+                $type = $this->typeDAO->getByID($result[$i]['type']);
 
 
                 $annonceFromReq = new Annonce($result[$i]['id_annonce'], $adherent, $lieu, $result[$i]['date_creation'], $result[$i]['date_debut'],
@@ -190,7 +179,7 @@
         public function edit($annonce)
         {
             if ($annonce.getID() >= 0){
-                $req = $bd->prepare('UPDATE Annonces
+                $req = $this->bd->prepare('UPDATE Annonces
                 SET adherent = :adherent,
                 date_creation = :date_creation,
                 date_debut = :date_debut,
@@ -234,7 +223,7 @@
                 }
             }
             $requete +=';';
-            $req = $bd->prepare($requete);
+            $req = $this->bd->prepare($requete);
             $req->execute();
             $result = $req->fetchAll();
 
@@ -242,11 +231,11 @@
              while( isset($result[$i]) ){
 
                 $adherent = new Adherent();
-                $adherent = $adherentDAO->getByID($result[$i]['adherent']);
+                $adherent = $this->adherentDAO->getByID($result[$i]['adherent']);
                 $lieu = new Lieu();
-                $lieu = $lieuDAO->getByID($result[$i]['lieu']);
+                $lieu = $this->lieuDAO->getByID($result[$i]['lieu']);
                 $type = new Type();
-                $type = $typeDAO->getByID($result[$i]['type']);
+                $type = $this->typeDAO->getByID($result[$i]['type']);
 
 
                 $annonceFromReq = new Annonce($result[$i]['id_annonce'], $adherent, $lieu, $result[$i]['date_creation'], $result[$i]['date_debut'],
@@ -262,7 +251,7 @@
 
         public function getAll(){
             $annoncesTab = array();
-            $req = $bd->prepare('SELECT * FROM Annonces 
+            $req = $this->bd->prepare('SELECT * FROM Annonces 
                 WHERE date_fin < :now');
             $now = date(y-m-d);
             $req->bindParam(':now', $now );
@@ -272,9 +261,9 @@
              while( isset($result[$i]) ){
 
                 $lieu = new Lieu();
-                $lieu = $lieuDAO->getByID($result[$i]['lieu']);
+                $lieu = $this->lieuDAO->getByID($result[$i]['lieu']);
                 $type = new Type();
-                $type = $typeDAO->getByID($result[$i]['type']);
+                $type = $this->typeDAO->getByID($result[$i]['type']);
 
 
                 $annonceFromReq = new Annonce($result[$i]['id_annonce'], $adherent, $lieu, $result[$i]['date_creation'], $result[$i]['date_debut'],

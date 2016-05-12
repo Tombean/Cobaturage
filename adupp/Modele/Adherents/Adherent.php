@@ -10,11 +10,12 @@ class Adherent
     private $telephone;
     private $description;
     private $possede_bateau;
+    private $admin;
 	
         
     //public function __construct(){}
 
-    public function __construct( $id_adherent, $pseudo, $password, $nom, $prenom, $email, $telephone, $description, $possede_bateau)
+    public function __construct( $id_adherent, $pseudo, $password, $nom, $prenom, $email, $telephone, $description, $possede_bateau, $admin)
     {
     	$this->id_adherent = $id_adherent;
     	$this->pseudo = $pseudo;
@@ -24,7 +25,8 @@ class Adherent
     	$this->telephone = $telephone;
     	$this->email = $email;
     	$this->description = $description;
-    	$this->possede_bateau = $possede_bateau;
+    	$this->possede_bateau = (boolean)$possede_bateau;
+        $this->admin = (boolean)$admin;
     }
     
     public function getID() {
@@ -33,6 +35,14 @@ class Adherent
     
     public function setID($id){
         $this->id_adherent = (int) $id;
+    }
+
+    public function getAdmin() {
+        return $this->admin;        
+    }
+    
+    public function setAdmin($admin){
+        $this->admin = (boolean) $admin;
     }
     
     public function getPassword() {
