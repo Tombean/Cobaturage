@@ -18,16 +18,12 @@
 
     <div class="container">
     	<?php   
-			echo '<center> <h1>Voici l\'annonce que vous cherchiez ! </h1></center> <br>';
-			echo '<h3> Du '.$annonce->getDateDebut().' au '.$annonce->getDateFin().' </h3>';
-            echo "<p><ul>";
-            echo '<li> Lieu d\'embarquement : '.$annonce->getLieu()->getNom().' </li>';
-            echo '<li> Types de sortie : '.$annonce->getType()->getNom().' </li>';
-            echo '<li><a href="/adupp/adherent/'.$annonce->getAdherent()->getID().'">Contacter l\'annonceur </li>';
-            echo "</ul></p>";
+			echo '<center> <h1>';
+			echo $message;
+			echo '</h1></center>';
 		?>
     <center>
-      <h4>Pour revenir à l'accueil cliquer <a href="/adupp/" id='menu_annonces'>ici.</a></h4>
+      <h4>Pour revenir à l'accueil cliquez <a href="/adupp/" id='menu_annonces'>ici.</a></h4>
     </center>
 		
     </div>
@@ -39,5 +35,6 @@
      })
    </script>
    <?php  include("includes/footer.php");?>
+   
   </body>
 </html>

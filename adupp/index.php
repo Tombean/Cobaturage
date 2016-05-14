@@ -3,8 +3,8 @@ define('ROOT_PATH', '/adupp/');
 require_once('Controller/ControllerAnnonces.php');
 require_once('Controller/ControllerAchats.php');
 require_once('Controller/ControllerAdherents.php');
-//require_once('Controller/ControllerLieux.php');
-//require_once('Controller/ControllerTypes.php');
+require_once('Controller/ControllerLieux.php');
+require_once('Controller/ControllerTypes.php');
 require_once('Controller/ControllerDemandes.php');
 
 //$url = $_SERVER['REQUEST_URI'];
@@ -13,12 +13,15 @@ $urlParse = parse_url($urlComplete);
 $url = $urlParse['path'];
 $racine = "/adupp/";
 
-// ==> ca fonctionne
-if ($url == "/adupp" || $url == "/adupp/"){
-	require_once('accueil.php');
-}
 
-else {
+// ==> ca fonctionne
+/*if ($url == "/adupp" || $url == "/adupp/"){
+	$controllerTypes = new ControllerTypes();
+	$types = $controllerTypes->getAll();
+	require_once('accueil.php');
+} */
+
+//else {
 	$url = str_replace($racine,"", $url);
 	$uri ="";
 	if ($url != "/") {
@@ -30,8 +33,17 @@ else {
 
 	while( isset($uri[$i])){
 		switch($uri[$i]){
-			case "accueil.php":
+			case "":
+				$controllerTypes = new ControllerTypes();
+				$types = $controllerTypes->getAll();
+				$controllerLieux = new ControllerLieux();
+				$lieux = $controllerLieux->getAll();
+				require_once('accueil.php');
+				break;
+			case "accueil":
 				$i++;
+				$controllerTypes = new ControllerTypes();
+				$types = $controllerTypes->getAll();
 				require_once("accueil.php");
 				break;
 			case "index.php":
@@ -66,17 +78,25 @@ else {
 						}
 						break;
 					case 'recherche':
-						$controllerAnnonces->search(  htmlspecialchars($_POST) );
+						$controllerAnnonces->search(  );
 						break;
 					case 'edit':
 						$i++;
 						if ( $uri[$i] != null && $uri[$i] != '' && preg_match('`^[[:digit:]]+$`', $uri[$i]) ){
-							$controllerAnnonces->edit(  $id, htmlspecialchars($_PUT) );
+							$id = $uri[$i];
+							$controllerAnnonces->edit(  $id );
 						}
 						break;
-					default:
-						# code...
-						break;
+					case 'last':
+						$i++;
+						if ( $uri[$i] != null && $uri[$i] != '' && preg_match('`^[[:digit:]]+$`', $uri[$i]) ){
+							$limit = (int)$uri[$i];
+							$controllerAnnonces->last(  $limit );
+						}
+						else{
+							$controllerAnnonces->getAll();
+						}
+
 					} 
 				}
 				break;
@@ -87,16 +107,22 @@ else {
 					$controllerAdherents->getByID( $uri[$i] );
 				}
 				break;
-			case 'profil':	
-				$id = $_COOKIE["id"];
+			case 'adherents':
 				$i++;
-				if ( $id == null || !isset($_COOKIE["id"]) || $id ="" ){
+				$controllerAdherents = new ControllerAdherents();
+				$controllerAdherents->getAll();
+				break;
+			case 'profil':	
+				$id_adherent = (int)$_COOKIE['id'];
+				$i++;
+				if ( $id_adherent == null || !isset($_COOKIE['id']) || $id_adherent ="" ){
 						$erreur = "Vous devez être connecté(e) pour accéder à votre propre profil !";
 						require_once("Vue/Erreur.php");
 					}
-				elseif ( $id=! null ){
+				elseif ( $id_adherent=! null ){
+					$id_adherent = (int)$_COOKIE['id'];
 					$controllerAdherents = new ControllerAdherents();
-					$controllerAdherents->getByID( $id );
+					$controllerAdherents->getByID( $id_adherent );
 				}
 				elseif( $uri[$i] == 'edit'){
 					$i++;
@@ -134,8 +160,6 @@ else {
 				$controllerAdherents = new ControllerAdherents();
 				$i++;
 				if (isset($uri[$i]) && $uri[$i] == 'succes'){
-					print_r($_POST['pseudo']);
-					print_r($_POST['password']);
 					$controllerAdherents->checkConnection();
 				}
 				if (!isset($uri[$i])) { 
@@ -160,6 +184,6 @@ else {
 		}
 		$i++; 
 	}
-}
+//}
 
 ?>

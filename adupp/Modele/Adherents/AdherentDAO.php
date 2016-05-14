@@ -16,15 +16,14 @@
          * @return Adherent
          */
         public function getByID($id)
-        {
-                
+        {   
             $req = $this->bd->prepare('SELECT * 
                 FROM Adherents 
                 WHERE id_adherent = :id');
             $req->bindParam(':id', $id );
             $req->execute();
             $result = $req->fetchAll();
-            $adherentFromReq = new Adherent($result[0]['id_adherent'], $result[0]['pseudo'], $result[0]['password'], $result[0]['nom'], $result[0]['prenom'], $result[0]['email'], $result[0]['telephone'], $result[0]['description'], $result[0]['possede_bateau'] );
+            $adherentFromReq = new Adherent($result[0]['id_adherent'], $result[0]['pseudo'], $result[0]['password'], $result[0]['nom'], $result[0]['prenom'], $result[0]['email'], $result[0]['telephone'], $result[0]['description'], $result[0]['possede_bateau'], $result[0]['admin'] );
             
             return $adherentFromReq;
         }
@@ -33,20 +32,19 @@
          * @param  Adherent
          * @return Adherent's ID
          */
-        public function getID($pseudo, $pass)
+        public function getID($pseudo, $password)
         {
-                
             $req = $this->bd->prepare('SELECT id_adherent 
                 FROM Adherents 
                 WHERE pseudo = :pseudo
                 AND password = :password; ');
-            $password = md5($pass);
-            $req->bindParam(':pseudo', $pseudo );
-            $req->bindParam(':password', $password );
-            $req->execute();
-            $result = $req->fetchAll();
             
-            return $result;
+            $req->bindParam(':pseudo', $pseudo );
+            $req->bindParam(':password', $password ); 
+            $req->execute();
+
+            $result = $req->fetchAll();
+            return $result[0][0];
         }
 
 
@@ -73,18 +71,18 @@
         public function addAdherent($adherent)
         {
             $req = $this->bd->prepare('INSERT INTO Adherents
-                (pseudo, password, nom, prenom, email, telephone, description, possede_bateau)
-                VALUES(:adherent, :pseudo, :nom, :prenom, :email,  :recherche, :telephone, :description, :possede_bateau)
+                (pseudo, password, nom, prenom, email, telephone, description, possede_bateau, admin)
+                VALUES(:pseudo, :password, :nom, :prenom, :email, :telephone, :description, :possede_bateau, :admin)
                 ');
-            $req->bindParam(':pseudo', $annonce->getPseudo() );
-            $req->bindParam(':password', $annonce->getPassword() );
-            $req->bindParam(':nom', $annonce->getNom() );
-            $req->bindParam(':prenom', $annonce->getPrenom() );
-            $req->bindParam(':email', $annonce->getEmail() );
-            $req->bindParam(':telephone', $annonce->getTelephone() );
-            $req->bindParam(':adherent', $annonce->getAdherent()->getID() );
-            $req->bindParam(':description', $annonce->getDescription() );
-            $req->binDParam(':possede_bateau', $annonce->getPossedeBateau() );
+            $req->bindParam(':pseudo', $adherent->getPseudo() );
+            $req->bindParam(':password', $adherent->getPassword() );
+            $req->bindParam(':nom', $adherent->getNom() );
+            $req->bindParam(':prenom', $adherent->getPrenom() );
+            $req->bindParam(':email', $adherent->getEmail() );
+            $req->bindParam(':telephone', $adherent->getTelephone() );
+            $req->bindParam(':description', $adherent->getDescription() );
+            $req->bindParam(':possede_bateau', $adherent->getPossedeBateau() );
+            $req->bindParam(':admin', $adherent->getAdmin() );
             $req->execute();
             $id = $this->bd -> lastInsertId();
             $adherent->setID($id);
@@ -95,7 +93,7 @@
         public function edit($adherent)
         {
             if ($annonce.getID() >= 0){
-                $req = $this->bd->prepare('UPDATE Adherent
+                $req = $this->bd->prepare('UPDATE Adherents
                 SET adherent = :adherent,
                 date_creation = :date_creation,
                 date_debut = :date_debut,
@@ -118,16 +116,23 @@
 
                 return true; 
             }
-        }
+        } */
         
         public function getAll(){
-            $req = $this->bd->prepare('SELECT * FROM Adherent 
-                WHERE date_fin < :now');
-            $now = date(y-m-d);
-            $req->bindParam(':now', $now );
-            $annonces = $req->fetchAll();
+            $req = $this->bd->prepare('SELECT * FROM Adherents;');
+            $req->execute();
+            $results = $req->fetchAll();
+            //$message = $results.' est le resultat de la requete. En results[0] on a : '.$results[0].' et en results[0][0] on a : '.$results[0][0];
+            //require_once('Vue/Message.php');
+            $adherents = array();
+            $i = 0;
+            foreach ($results as $result){
+                $adherent = new Adherent($result['id_adherent'], $result['pseudo'], $result['password'], $result['nom'], $result['prenom'], $result['email'], $result['telephone'], $result['description'], $result['possede_bateau'], $result['admin'] );
+                $adherents[$i] = $adherent;
+                $i++;
+            }
             
-            return $annonces;
-        } */
+            return $adherents;
+        }
     }
 ?>

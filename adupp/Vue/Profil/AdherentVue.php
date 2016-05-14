@@ -18,16 +18,24 @@
 
     <div class="container">
     	<?php   
-			echo '<center> <h1>Voici l\'annonce que vous cherchiez ! </h1></center> <br>';
-			echo '<h3> Du '.$annonce->getDateDebut().' au '.$annonce->getDateFin().' </h3>';
-            echo "<p><ul>";
-            echo '<li> Lieu d\'embarquement : '.$annonce->getLieu()->getNom().' </li>';
-            echo '<li> Types de sortie : '.$annonce->getType()->getNom().' </li>';
-            echo '<li><a href="/adupp/adherent/'.$annonce->getAdherent()->getID().'">Contacter l\'annonceur </li>';
-            echo "</ul></p>";
+			echo '<center> <h2>';
+			echo $adherent->getPseudo();
+			echo '</h2></center>';
 		?>
+    <div>
+      <p>
+        <?php
+          echo 'Nom : '.$adherent->getNom().'<br>';
+          echo 'Prenom : '.$adherent->getPrenom().'<br>';
+          echo 'Email : '.$adherent->getEmail().'<br>';
+          echo 'Telephone : '.$adherent->getTelephone().'<br>';
+          echo 'Possède un bateau : '.$adherent->getPossedeBateau().'<br>';
+          echo 'Description : '.$adherent->getDescription().'<br>';
+        ?>
+      </p>
+    </div>
     <center>
-      <h4>Pour revenir à l'accueil cliquer <a href="/adupp/" id='menu_annonces'>ici.</a></h4>
+      <h4>Pour revenir à l'accueil cliquez <a href="/adupp/" id='menu_annonces'>ici.</a></h4>
     </center>
 		
     </div>
@@ -35,7 +43,6 @@
    <script type="text/javascript">
      $( document ).ready(function(){
         $(".button-collapse").sideNav();
-        $('.parallax').parallax();
      })
    </script>
    <?php  include("includes/footer.php");?>

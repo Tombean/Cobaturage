@@ -27,13 +27,12 @@
          * @param  Integer number of how many Annonce should be fetched
          * @return X last Annonces
          */
-        public function last($X)
+        public function last($limite)
         {
             
-            $limit = (int) $X;
             $annoncesTab = array();
                 
-            $req = $this->bd->prepare('SELECT Lieux.nom AS lieu 
+           /*$req = $this->bd->prepare('SELECT Lieux.nom AS lieu 
             	DATE_FORMAT(Annonces.date_creation, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation, 
             	DATE_FORMAT(Annonces.date_debut, \'%d/%m/%Y à %Hh%imin%ss\') AS debut, 
             	DATE_FORMAT(Annonces.date_fin, \'%d/%m/%Y à %Hh%imin%ss\') AS fin, 
@@ -41,11 +40,15 @@
             	Annonces.recherche AS recherche,
             	Annonces.participation AS participation,
             	FROM Annonces JOIN Lieux ON Annonces.lieu = Lieux.id_lieu JOIN Types ON Annonces.type = Types.id_type
-            	ORDER BY date_creation LIMIT :limit');
-            $req->bindParam(':limit', $limit, PDO::PARAM_INT);
+            	ORDER BY date_creation LIMIT :limit');  */
+           $req = $this->bd->prepare('SELECT * FROM Annonces 
+                WHERE date_fin > CURDATE()
+                ORDER BY date_fin DESC
+                LIMIT :limite');
+            $req->bindValue(':limite', (int)$limite, PDO::PARAM_INT);
             $req->execute();
             $result = $req->fetchAll();
-            for( $i = 0; $i< $X; $i++){
+            for( $i = 0; $i< $limite; $i++){
 
                 $adherent = new Adherent();
                 $adherent = $this->adherentDAO->getByID($result[$i]['adherent']);
@@ -252,25 +255,26 @@
         public function getAll(){
             $annoncesTab = array();
             $req = $this->bd->prepare('SELECT * FROM Annonces 
-                WHERE date_fin < :now');
-            $now = date(y-m-d);
-            $req->bindParam(':now', $now );
-            $result = $req->fetchAll();
-            
+                WHERE date_fin > CURDATE()
+                ORDER BY date_fin DESC;');
+            //$now = date(y-m-d);
+            //$req->bindParam(':now', $now );
+            $req->execute();
+            $results = $req->fetchAll();
             $i = 0;
-             while( isset($result[$i]) ){
+            foreach($results as $result){
 
                 $lieu = new Lieu();
-                $lieu = $this->lieuDAO->getByID($result[$i]['lieu']);
+                $lieu = $this->lieuDAO->getByID($result['lieu']);
                 $type = new Type();
-                $type = $this->typeDAO->getByID($result[$i]['type']);
+                $type = $this->typeDAO->getByID($result['type']);
 
 
-                $annonceFromReq = new Annonce($result[$i]['id_annonce'], $adherent, $lieu, $result[$i]['date_creation'], $result[$i]['date_debut'],
-                    $result[$i]['date_fin'], $type, $result[$i]['cherche'], $result[$i]['participation'], $result[$i]['commentaire']);
+                $annonceFromReq = new Annonce($result['id_annonce'], $adherent, $lieu, $result['date_creation'], $result['date_debut'],
+                    $result['date_fin'], $type, $result['cherche'], $result['participation'], $result['commentaire'], false);
                 
                 $annoncesTab[$i] = $annonceFromReq;
-                $i = $i + 1;
+                $i++;
 
             }
 

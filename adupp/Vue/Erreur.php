@@ -23,7 +23,7 @@
 			echo '</h1></center>';
 		?>
     <center>
-      <h2>Pour revenir à l'accueil cliquez <a href="/adupp/" id='menu_annonces'>ici.</a></h2>
+      <h4>Pour revenir à l'accueil cliquez <a href="/adupp/" id='menu_annonces'>ici.</a></h4>
     </center>
 		
     </div>
@@ -34,6 +34,6 @@
         $('.parallax').parallax();
      })
    </script>
-
+   <?php  include("includes/footer.php");?>
   </body>
 </html>

@@ -2,7 +2,7 @@
      <div class="row">
       <div class="col s12">  
         <div class="row">
-          <form  action="connexion/succes" name"form_connexion" id="connexion" method="POST">
+          <form  action="connexion/succes" name"form_connexion" id="form_connexion" method="post">
             <div class="row">
               <div class="input-field col s12">
                 <input id="pseudo" name="pseudo" type="text" class="validate">
@@ -16,11 +16,11 @@
               </div>
             </div>
             
-            <button class="waves-effect waves-light btn" type ="submit">Se connecter</button>
+            <button class="waves-effect waves-light btn" type ="submit" form="form_connexion" value="form_connexion">Se connecter</button>
           </form>
           <div>
             <p></p>
-            <a class="waves-effect waves-light btn" href="inscription">Pas encore inscrit ?</a>
+            <a class="waves-effect waves-light btn" href="inscription">Pas encore inscrit(e) ?</a>
           </div>
         </div>
       </div>

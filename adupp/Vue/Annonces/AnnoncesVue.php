@@ -24,13 +24,15 @@
       <?php
         $taille = count($annonces);
         echo 'Il y a '.$taile.' annonces sur le site, les voici : <br>';
-        for ($i = 0; $i < $taille; $i++){
-          echo $annonces[$i]->getID();
-          echo $annonces[$i]->getCommentaire();
+        foreach($annonces as $annonce){
+            echo '<h3> Du '.$annonce->getDateDebut().' au '.$annonce->getDateFin().' </h3>';
+            echo "<p><ul>";
+            echo '<li> Lieu d\'embarquement : '.$annonce->getLieu()->getNom().' </li>';
+            echo "</ul></p>";
         }
       ?>  
     <center>
-      <h2>Pour revenir à l'accueil cliquer <a href="/adupp/" id='menu_annonces'>ici.</a></h2>
+      <h4>Pour revenir à l'accueil cliquer <a href="/adupp/" id='menu_annonces'>ici.</a></h4>
     </center>
 		
     </div>
@@ -41,6 +43,6 @@
         $('.parallax').parallax();
      })
    </script>
-
+   <?php  include("includes/footer.php");?>
   </body>
 </html>

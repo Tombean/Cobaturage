@@ -27,6 +27,11 @@
             require_once('Vue/Annonces/AnnonceVue.php');
         }
 
+        public function last( $limit ){
+            $annonces = $this->annonceDAO->last($limit);
+            require_once('Vue/Annonces/AnnoncesVue.php');
+        }
+
         public function create( $adhérent, $lieuForm, $date_debut, $date_fin, $type, $cherche, $participation, $commentaire ){
             $type = new Type();
             $type = $this->typeDAO->getByName($type);
@@ -50,6 +55,15 @@
 
             require_once('Vue/Annonces/AnnonceVue.php');
 
+        }
+
+        public function search(){
+            $id_lieu = $this->lieuDAO->getID($_POST['lieu']);
+            $id_type = $this->typeDAO->getID($_POST['type']);
+            $participation = (boolean)$_POST['participation'];
+            $cherche = (boolean)$_POST['cherche'];
+            $annonces = $this->AnnonceDAO($id_lieu, $id_type, $participation, $cherche);
+            require_once('Vue/AnnoncesVue.php');
         }
 
         public function getAll()

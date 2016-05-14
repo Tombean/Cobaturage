@@ -2,9 +2,6 @@
 <html lang="fr">
   <head>
       <?php  include("includes/head.php");?>
-       
-      
-      
   </head>
 
 
@@ -24,20 +21,28 @@
                 <div class="input-field col s6">
                   <select>
                     <option value="" disabled selected>Choisissez votre lieu d'embarquement</option>
-                    <option value="1">Port de Dinard</option>
-                    <option value="2">Port de Saint-Malo</option>
-                    <option value="3">Plage de l'Ecluse</option>
-                    <option value="3">Plage du Prieuré</option>
+                    <?php 
+                      foreach($lieux as $lieu){
+                        echo "<option value=\"".$lieu->getID()."\">".(string)$lieu->getNom()."</option>";
+                    }
+
+                    ?>
                   </select>
                   <label>Lieu d'embarquement :</label>
                 </div>
                <div class="input-field col s6">
                   <select>
                     <option value="" disabled selected>Choisissez votre type de sortie</option>
-                    <option value="1">Promenade</option>
+                    <?php 
+                      foreach($types as $type){
+                        echo "<option value=\"".$type->getID()."\">".(string)$type->getNom()."</option>";
+                    }
+
+                    ?>
+                    <!-- <option value="1">Promenade</option>
                     <option value="2">Pêche en mer</option>
                     <option value="3">Voile</option>
-                    <option value="3">Sport nautique (ski nautique, wakeboard, etc)</option>
+                    <option value="3">Sport nautique (ski nautique, wakeboard, etc)</option> -->
                   </select>
                   <label>Type de sortie :</label>
                 </div>
@@ -54,34 +59,34 @@
             </div>
             <div class="row">
                 <div class = "col s6">
-                  <label>Je recherche / Je propose une sortie :</label>
-                  <div class="input-field">
-                     <p>
-                       <input id="true_cherche" type="radio" name="cherche" value="true" checked>
-                       <label for="true_cherche">Je recherche</label>
-                    </p>
-                    <p>
-                       <input id="false_cherche" type="radio" name="cherche" value="false" checked>
-                       <label for="false_cherche">Je propose</label>
-                    </p> 
+                  <label>Je propose / Je recherche une sortie :</label>
+                  
+                  <div class="switch">
+                    <label>
+                      Je propose une sortie
+                      <input name ="cherche" type="checkbox">
+                      <span class="lever"></span>
+                      Je cherche une sortie
+                    </label>
                   </div>
+
                 </div>
                 <div class = "col s6">
-                  <label>Eventuellement j'accepte / je demande une participation financière :</label>
-                  <div class="input-field">
-                     <p>
-                       <input id="true_participation" type="radio" name="participation" value="true" checked>
-                       <label for="true_participation">Oui</label>
-                    </p>
-                    <p>
-                       <input id="false_participation" type="radio" name="participation" value="false" checked>
-                       <label for="false_participation">Non</label>
-                    </p>
+                  <label>Eventuellement j'accepte / je demande une participation financière :</label>   
+                  
+                  <div class="switch">
+                    <label>
+                      Non
+                      <input name ="participation" type="checkbox">
+                      <span class="lever"></span>
+                      Oui
+                    </label>
                   </div>
+
                 </div>
                 <div class="row">
                   <div class="input-field col s12">
-                    <textarea id="commentaire" class="materialize-textarea"></textarea>
+                    <textarea id="commentaire" class="materialize-textarea" name="commentaire"></textarea>
                     <label for="commentaire">Commentaires sur l'annonce : </label>
                   </div>
                 </div>
@@ -101,8 +106,7 @@
         $('.parallax').parallax();
      })
    </script>
-
-   <?php require_once('index.php'); ?>
+   <?php  include("includes/footer.php");?>
 
   </body>
 </html>
