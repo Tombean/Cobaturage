@@ -21,7 +21,7 @@ class LieuDAO{
             $req->bindParam(':id', $id );
             $req->execute();
             $result = $req->fetchAll();
-            $typeReq = new Type($result[0]['id_lieu'], $result[0]['nom']);
+            $typeReq = new Lieu($result[0]['id_lieu'], $result[0]['nom']);
             
             return $typeReq;
         }

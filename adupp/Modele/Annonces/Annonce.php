@@ -16,18 +16,19 @@ class Annonce
 	private $cherche;
 	private $participation;
 	private $commentaire;
-        
-    //public function __construct(){}
          
-    public function __construct( $id_annonce, $adherent, $lieu, $date_creation, $date_debut, $date_fin, $type, $cherche, $participation, $commentaire)
+    public function __construct( $id_annonce, Adherent $adherent, Lieu $lieu, $date_creation, $date_debut, $date_fin, Type $type, $cherche, $participation, $commentaire)
     {
     	$this->id_annonce = $id_annonce;
-    	$this->adherent = $adherent;
-    	$this->lieu = $lieu;
+    	//$this->adherent = new Adherent();
+        $this->adherent = $adherent;
+        //$this->lieu = new Lieu();
+        $this->lieu = $lieu;
     	$this->date_creation = $date_creation;
     	$this->date_debut = $date_debut;
     	$this->date_fin = $date_fin;
-    	$this->type = $type;
+        //$this->type = new Type();
+        $this->type = $type;
     	$this->cherche = $cherche;
     	$this->participation = $participation;
     	$this->commentaire = $commentaire;
@@ -90,7 +91,7 @@ class Annonce
     }
     
     public function getCherche() {
-        return $this->cherche;        
+        return (boolean)$this->cherche;        
     }
     
     public function setCherche($cherche){

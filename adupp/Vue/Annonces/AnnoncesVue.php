@@ -18,17 +18,27 @@
 
     <div class="container">
     <center> 
-    	<h1>Voici l'ensemble des annonces à jour du site ! </h1>
+    	<h1><?php echo $message1;?> </h1>
     </center> 
     	<br>  
       <?php
-        $taille = count($annonces);
-        echo 'Il y a '.$taile.' annonces sur le site, les voici : <br>';
+        echo $message2;
         foreach($annonces as $annonce){
-            echo '<h3> Du '.$annonce->getDateDebut().' au '.$annonce->getDateFin().' </h3>';
+          $couleur = "grey lighten-5";
+          $cherche = 'Proposition :';
+          if($annonce->getCherche() ==  1 || $annonce->getCherche() == true){
+            $couleur = "blue lighten-3";
+            $cherche = 'Recherche :';
+          }
+          echo '<div class  = "card-panel '.$couleur.'">';
+            echo '<h4>'.$cherche.' du '.$annonce->getDateDebut().' au '.$annonce->getDateFin().' </h4>';
             echo "<p><ul>";
-            echo '<li> Lieu d\'embarquement : '.$annonce->getLieu()->getNom().' </li>';
-            echo "</ul></p>";
+            echo '<li><b> Lieu d\'embarquement : </b>'.$annonce->getLieu()->getNom().' </li>';
+            echo '<li><b> Types de sortie : </b>'.$annonce->getType()->getNom().' </li>';
+            echo '<li><b> Commentaire de l\'annonceur : </b>'.$annonce->getCommentaire().' </li>';
+            echo '<li><a href="/adupp/adherent/'.$annonce->getAdherent()->getID().'">Contacter l\'annonceur </a></li>';
+            echo '</ul></p>';
+          echo '</div>';
         }
       ?>  
     <center>
@@ -41,6 +51,28 @@
      $( document ).ready(function(){
         $(".button-collapse").sideNav();
         $('.parallax').parallax();
+        var pseudo=getCookie("pseudo");
+          var id=getCookie("id");
+          var password=getCookie("password"); 
+          if(pseudo != "" && id != "" && password != "" ){
+              $("bouton_connexion").hide();
+              $("bouton_deconnexion").show(); 
+          }
+          else{
+            $("bouton_connexion").show();
+            $("bouton_deconnexion").hide(); 
+            var pseudo=getCookie("pseudo");
+            var id=getCookie("id");
+            var password=getCookie("password"); 
+            if(pseudo != "" && id != "" && password != "" ){
+                $("bouton_connexion").hide();
+                $("bouton_deconnexion").show(); 
+            }
+            else{
+              $("bouton_connexion").show();
+              $("bouton_deconnexion").hide(); 
+            }
+          }
      })
    </script>
    <?php  include("includes/footer.php");?>

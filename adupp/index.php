@@ -62,9 +62,9 @@ $racine = "/adupp/";
 				else{
 					switch ($uri[$i]) {
 					case 'creation':
-						if (isset($_COOKIE['id_adherent'])){
+						if ($_COOKIE['id'] != null && $_COOKIE['id'] != ''){
 							//necessite la creation de cookie et une connection
-							$controllerAnnonces->create( $_COOKIE['id_adherent'], $_POST['lieu'],
+							$controllerAnnonces->create( $_POST['lieu'],
 							 $_POST['date_debut'],
 							 $_POST['date_fin'],
 							 $_POST['type'],
@@ -78,7 +78,7 @@ $racine = "/adupp/";
 						}
 						break;
 					case 'recherche':
-						$controllerAnnonces->search(  );
+						$controllerAnnonces->search( );
 						break;
 					case 'edit':
 						$i++;
@@ -113,27 +113,26 @@ $racine = "/adupp/";
 				$controllerAdherents->getAll();
 				break;
 			case 'profil':	
-				$id_adherent = (int)$_COOKIE['id'];
+				$id_adherent = $_COOKIE['id'];
+				$controllerAdherents = new ControllerAdherents();
 				$i++;
 				if ( $id_adherent == null || !isset($_COOKIE['id']) || $id_adherent ="" ){
 						$erreur = "Vous devez être connecté(e) pour accéder à votre propre profil !";
 						require_once("Vue/Erreur.php");
 					}
-				elseif ( $id_adherent=! null ){
-					$id_adherent = (int)$_COOKIE['id'];
-					$controllerAdherents = new ControllerAdherents();
-					$controllerAdherents->getByID( $id_adherent );
-				}
 				elseif( $uri[$i] == 'edit'){
 					$i++;
-					if ( $id=! null && $id == $uri[$i]){
-						$controllerAdherents = new ControllerAdherents();
-						$controllerAdherents->edit( $id, htmlspecialchars($_PUT) );
+					if ( $id_adherent =! null && $id_adherent !='' && $id_adherent != 0 && $controllerAdherents->checkConnectionBool() ){
+						$controllerAdherents->edit( $id_adherent );
 					}
 					else{
-						$erreur = "Vous ne pouvez éditez que votre propre profil !";
+						$erreur = "Vous ne pouvez éditer que votre propre profil !";
 						require_once("Vue/Erreur.php");
 					}
+				}
+				elseif ( $id_adherent=! null ){
+					$id_adherent = (int)$_COOKIE['id'];
+					$controllerAdherents->getByID( $id_adherent );
 				}
 				break;
 			case 'achats':
@@ -166,6 +165,21 @@ $racine = "/adupp/";
 					require_once('Vue/Login/ConnexionVue.php');
 				}
 				break;
+			case 'deconnexion' :
+				if (isset($_COOKIE['pseudo'])) {
+                        unset($_COOKIE['pseudo']);
+                        setcookie('pseudo', '', time() - 3600, '/adupp/'); // empty value and old timestamp
+                }
+                if (isset($_COOKIE['password'])) {
+                        unset($_COOKIE['password']);
+                        setcookie('password', '', time() - 3600, '/adupp/'); 
+                
+                        unset($_COOKIE['id']);
+                        setcookie('id', '', time() - 3600, '/adupp/'); 
+                }
+                $message = "Vous avez été correctement déconnecté(e).";
+                require_once('Vue/Message.php');
+                break;
 			case 'inscription':
 				$controllerAdherents = new ControllerAdherents();
 				$i++;
@@ -175,9 +189,33 @@ $racine = "/adupp/";
 				if (!isset($uri[$i])) {
 					require_once('Vue/Login/InscriptionVue.php');
 				}
-				break;		
+				break;
+			case 'mesAnnonces':
+				$id_adherent = (int)$_COOKIE['id'];
+				$controllerAnnonces= new ControllerAnnonces();
+				$i++;
+				if ( $id_adherent == null || !isset($_COOKIE['id']) || $id_adherent ="" ){
+						$erreur = "Vous devez être connecté(e) pour accéder à vos annonces !";
+						require_once("Vue/Erreur.php");
+					}
+				else{
+					$controllerAnnonces->getAllFor();
+				}
+				/*elseif( $uri[$i] == 'edit'){
+					$i++;
+					$message = $id_adherent;
+					require_once 'Vue/Message.php';
+					if ( $id_adherent =! null && $id_adherent !='' && $id_adherent != 0 && $controllerAdherents->checkConnectionBool() ){
+						$controllerAdherents->edit( $id_adherent );
+					}
+					else{
+						$erreur = "Vous ne pouvez éditez que votre propre profil !";
+						require_once("Vue/Erreur.php");
+					} */
+				break;
+
 			default :
-				$erreur = "Adresse inconnue. Avez-vous renseigner une URL correcte ?";
+				$erreur = "Adresse inconnue. Avez-vous renseigné une URL correcte ?";
 				require_once('Vue/Erreur.php');
 				break;
 

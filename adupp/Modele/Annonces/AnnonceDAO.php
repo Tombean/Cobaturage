@@ -121,19 +121,25 @@
         /**  Deletes an Annonce in the database based on its given ID
          * @param  Integer :  the Annonce's ID
          */
-        public function addAnnonce($annonce)
+        public function addAnnonce(Annonce $annonce)
         {
+            $date_debut = $annonce->getDateDebut();
+            $message = date_format($date_debut, 'Y-m-d H:i:s');
+            //$message = $date_debut;
+            require_once('Vue/Message.php');
             $req = $this->bd->prepare('INSERT INTO Annonces
-                (adherent, date_creation, date_debut, date_fin, type, recherche, participation, commentaire, lieu)
+                (adherent, date_creation, date_debut, date_fin, type, cherche, participation, commentaire, lieu)
                 VALUES(:adherent, :date_creation, :date_debut, :date_fin, :type, :recherche, :participation, :commentaire, :lieu)
                 ');
-            $req->bindParam(':date_creation', $annonce->getDateCreation() );
+            $date_creation = date_format($annonce->getDateCreation(), 'Y-m-d');
+            $req->bindParam(':date_creation', $date_creation );
             $req->bindParam(':date_debut', $annonce->getDateDebut() );
             $req->bindParam(':date_fin', $annonce->getDateFin() );
             $req->bindParam(':type', $annonce->getType()->getID() );
-            $req->bindParam(':recherche', $annonce->getRecherche() );
+            $req->bindParam(':recherche', $annonce->getCherche() );
             $req->bindParam(':participation', $annonce->getParticipation() );
-            $req->bindParam(':adherent', $annonce->getAdherent()->getID() );
+            $adherent = new Adherent();
+            $id_adherent = $annonce->getAdherent()->getID();$req->bindParam(':adherent', $id_adherent );
             $req->bindParam(':commentaire', $annonce->getCommentaire() );
             $req->bindParam(':lieu', $annonce->getLieu()->getID() );
             $req->execute();
@@ -147,12 +153,13 @@
          * @param  url  an absolute URL giving the base location of the image
          * @return 
          */
-        public function getAllFor($adherent)
-        {
+        public function getAllFor(Adherent $adherent)
+        {   
             $annoncesTab = array();
             $req = $this->bd->prepare('SELECT *  
                 FROM Annonces 
-                WHERE id_adherent = :id_adherent
+                WHERE adherent = :id_adherent
+                AND date_fin > CURDATE()
                 ORDER BY date_creation');
             $req->bindParam(':id_adherent', $adherent->getID() );
             $req->execute();
@@ -181,7 +188,7 @@
         
         public function edit($annonce)
         {
-            if ($annonce.getID() >= 0){
+            if ($annonce->getID() >= 0){
                 $req = $this->bd->prepare('UPDATE Annonces
                 SET adherent = :adherent,
                 date_creation = :date_creation,
@@ -268,6 +275,8 @@
                 $lieu = $this->lieuDAO->getByID($result['lieu']);
                 $type = new Type();
                 $type = $this->typeDAO->getByID($result['type']);
+                $adherent = new Adherent();
+                $adherent = $this->adherentDAO->getByID($result['adherent']);;
 
 
                 $annonceFromReq = new Annonce($result['id_annonce'], $adherent, $lieu, $result['date_creation'], $result['date_debut'],

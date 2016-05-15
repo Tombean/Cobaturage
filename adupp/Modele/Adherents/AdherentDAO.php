@@ -68,7 +68,7 @@
         /**  Adds an adherent in the database based on an Adherent Object
          * @param  Integer :  the adherent's ID
          */
-        public function addAdherent($adherent)
+        public function addAdherent(Adherent $adherent)
         {
             $req = $this->bd->prepare('INSERT INTO Adherents
                 (pseudo, password, nom, prenom, email, telephone, description, possede_bateau, admin)
@@ -89,34 +89,32 @@
 
         }
 
-        /*
+        
         public function edit($adherent)
         {
             if ($annonce.getID() >= 0){
                 $req = $this->bd->prepare('UPDATE Adherents
-                SET adherent = :adherent,
-                date_creation = :date_creation,
-                date_debut = :date_debut,
-                date_fin = :date_fin,
+                SET pseudo = :pseudo,
+                password = :password,
+                nom = :nom,
+                prenom = :prenom,
                 type = :type,
-                recherche = :recherche,
-                participation = :participation,
-                commentaire = :commentaire,
+                email = :email,
+                telephone = :telephone,
+                description = :description,
+                possede_bateau = :possede_bateau
                 WHERE id_annonce = :id');
-                 $req->bindParam(':pseudo', $annonce->getPseudo() );
-                $req->bindParam(':password', $annonce->getPassword() );
-                $req->bindParam(':nom', $annonce->getNom() );
-                $req->bindParam(':prenom', $annonce->getPrenom() );
-                $req->bindParam(':email', $annonce->getEmail() );
-                $req->bindParam(':telephone', $annonce->getTelephone() );
-                $req->bindParam(':adherent', $annonce->getAdherent()->getID() );
-                $req->bindParam(':description', $annonce->getDescription() );
-                $req->binDParam(':possede_bateau', $annonce->getPossedeBateau() );
+                 $req->bindParam(':pseudo', $adherent->getPseudo() );
+                $req->bindParam(':password', $adherent->getPassword() );
+                $req->bindParam(':nom', $adherent->getNom() );
+                $req->bindParam(':prenom', $adherent->getPrenom() );
+                $req->bindParam(':email', $adherent->getEmail() );
+                $req->bindParam(':telephone', $adherent->getTelephone() );
+                $req->bindParam(':description', $adherent->getDescription() );
+                $req->binDParam(':possede_bateau', $adherent->getPossedeBateau() );
                 $req->execute();
-
-                return true; 
             }
-        } */
+        } 
         
         public function getAll(){
             $req = $this->bd->prepare('SELECT * FROM Adherents;');

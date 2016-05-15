@@ -11,33 +11,21 @@
               <li><a href="/adupp/annonces" id='menu_annonces'>Loisirs/Echanges
               </a></li>
               <li><a href="/adupp/achats">Achats/Ventes</a></li>
-              <li><a href="/adupp/demandes">Mes annonces/demandes</a></li>
+              <li><a href="/adupp/mesAnnonces">Mes annonces</a></li>
               <li><a href="/adupp/profil">Mon profil</a></li>
-              <li><a href="#">
-                <!-- Modal Trigger -->
-                  <a class="waves-effect waves-light btn modal-trigger" href="/adupp/connexion">Connexion</a> </a></li>
+              <li><a class="waves-effect waves-light btn" href="/adupp/connexion" id="bouton_connexion">Connexion</a></li>
+              <li><a class="waves-effect waves-light btn" href="/adupp/deconnexion" id="bouton_deconnexion">Deconnexion</a></li>
             </ul>
             <ul class="side-nav" id="mobile-demo">
               <li><a href="/adupp/annonces">Loisirs/Echanges</a></li>
               <li><a href="/adupp/achats">Achats/Ventes</a></li>
-              <li><a href="/adupp/demandes">Mes annonces/demandes</a></li>
+              <li><a href="/adupp/mesAnnonces">Mes annonces</a></li>
               <li><a href="/adupp/profil">Mon profil</a></li>
-              <li><a href="#">
-                <!-- Modal Trigger -->
-                  <a class="waves-effect waves-light btn modal-trigger" href="/adupp/connexion">Connexion</a>
-
-                  <!-- Modal Structure -->
-                  <div id="modal1" class="modal">
-                    <div class="modal-content">
-                      <h4>Modal Header</h4>
-                      <p>A bunch of text</p>
-                    </div>
-                    <div class="modal-footer">
-                      <a href="/adupp/" class=" modal-action modal-close waves-effect waves-green btn-flat"></a>
-                    </div>
-                  </div>
-              </a></li>
+              <li><a class="waves-effect waves-light btn" href="/adupp/connexion" id="bouton_connexion">Connexion</a></li>
+              <li><a class="waves-effect waves-light btn" href="/adupp/deconnexion" id="bouton_deconnexion">Deconnexion</a></li>
             </ul>
           </div>
         </nav>
       </div>
+
+  

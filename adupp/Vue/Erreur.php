@@ -32,6 +32,17 @@
      $( document ).ready(function(){
         $(".button-collapse").sideNav();
         $('.parallax').parallax();
+        var pseudo=getCookie("pseudo");
+          var id=getCookie("id");
+          var password=getCookie("password"); 
+          if(pseudo != "" && id != "" && password != "" ){
+              $("bouton_connexion").hide();
+              $("bouton_deconnexion").show(); 
+          }
+          else{
+            $("bouton_connexion").show();
+            $("bouton_deconnexion").hide(); 
+          }
      })
    </script>
    <?php  include("includes/footer.php");?>

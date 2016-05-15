@@ -17,7 +17,8 @@
       ?>
 
     <div class="container">
-    	<?php   
+    	<?php 
+      echo '<div class  = "card-panel grey lighten-5">';  
 			echo '<center> <h2>';
 			echo $adherent->getPseudo();
 			echo '</h2></center>';
@@ -25,12 +26,15 @@
     <div>
       <p>
         <?php
-          echo 'Nom : '.$adherent->getNom().'<br>';
-          echo 'Prenom : '.$adherent->getPrenom().'<br>';
-          echo 'Email : '.$adherent->getEmail().'<br>';
-          echo 'Telephone : '.$adherent->getTelephone().'<br>';
-          echo 'Possède un bateau : '.$adherent->getPossedeBateau().'<br>';
-          echo 'Description : '.$adherent->getDescription().'<br>';
+          echo '<b>Nom : </b>'.$adherent->getNom().'<br>';
+          echo '<b>Prenom : </b>'.$adherent->getPrenom().'<br>';
+          echo '<b>Email : </b>'.$adherent->getEmail().'<br>';
+          echo '<b>Telephone : </b>'.$adherent->getTelephone().'<br>';
+          $possede = 'Non';
+          if ($adherent->getPossedeBateau()){$possede = 'Oui';}
+          echo '<b>Possède un bateau : </b>'.$possede.'<br>';
+          echo '<b>Description : </b>'.$adherent->getDescription().'<br>';
+          echo '</div>';
         ?>
       </p>
     </div>

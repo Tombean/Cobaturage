@@ -30,7 +30,7 @@ class Adherent
     }
     
     public function getID() {
-        return $this->id_adherent;        
+        return (int)$this->id_adherent;        
     }
     
     public function setID($id){

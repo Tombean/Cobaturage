@@ -10,31 +10,23 @@
               La mer et les rencontres vous attendent ici !</p>
                 <div class = "row card-panel grey lighten-5" id='menu_annonces_description'>
                   <div class="col l3" >
-                    <p>
-                      <strong>Loisirs / Echanges</strong><br>
+                     <strong>Loisirs / Echanges</strong><br>
                       Voir les propositions de services et index de recherche
-                    </p>
                   </div>
 
                   <div class="col l3">
-                    <p>
-                      <strong>Achats / Ventes</strong><br>
+                    <strong>Achats / Ventes</strong><br>
                       Voir les propositions de vente ou achat de matériels.
-                    </p>
                   </div>
 
                   <div class="col l3">
-                    <p>
-                      <strong>Mes annonces / demandes</strong><br>
+                    <strong>Mes annonces / demandes</strong><br>
                       Permet de lister les éléments de mon compte.
-                    </p>
                   </div>
 
                   <div class="col l3">
-                    <p>
                       <strong>Mon profil</strong><br>
                       Permet de consulter mon profil et éventuellement de le modifier.
-                    </p>
                   </div>
                 </div>
 

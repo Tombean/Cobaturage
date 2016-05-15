@@ -14,12 +14,12 @@
 
 
      <div class="container">
-       <h1> Créez votre annonce !</h1>
+       <h1> Créez votre annonce :</h1>
        <div class="row">
          <form class="col s12" action="/adupp/annonces/creation" method="post" >
             <div class="row">
                 <div class="input-field col s6">
-                  <select>
+                  <select name="lieu">
                     <option value="" disabled selected>Choisissez votre lieu d'embarquement</option>
                     <?php 
                       foreach($lieux as $lieu){
@@ -31,7 +31,7 @@
                   <label>Lieu d'embarquement :</label>
                 </div>
                <div class="input-field col s6">
-                  <select>
+                  <select name="type">
                     <option value="" disabled selected>Choisissez votre type de sortie</option>
                     <?php 
                       foreach($types as $type){
@@ -50,11 +50,11 @@
             <div class="row">
                <div class="col s6">
                   <label>Date de début de période :</label>
-                  <input type="date" class="datepicker">
+                  <input type="date" class="datepicker" name="date_debut">
                </div>
                <div class="col s6">
                   <label>Date de fin de période :</label>
-                  <input type="date" class="datepicker">
+                  <input type="date" class="datepicker" name="date_fin">
                </div>
             </div>
             <div class="row">
@@ -100,11 +100,30 @@
      </div>
 
    <script type="text/javascript">
+      /*function getCookie(name) {
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if (parts.length == 2) return parts.pop().split(";").shift();
+      } */
      $( document ).ready(function(){
         $(".button-collapse").sideNav();
         $('select').material_select();
         $('.parallax').parallax();
+        /*var pseudo=getCookie("pseudo");
+        var id=getCookie("id");
+        var password=getCookie("password"); 
+        if(( pseudo != "" || pseudo != null ) 
+          && ( id != "" || id != null ) 
+          && ( password != "" || password != null ) ){
+              $("#bouton_connexion").hide();
+              $("#bouton_deconnexion").show(); 
+        }
+        else{
+          $("#bouton_connexion").show();
+          $("#bouton_deconnexion").hide(); 
+        } */
      })
+    
    </script>
    <?php  include("includes/footer.php");?>
 
